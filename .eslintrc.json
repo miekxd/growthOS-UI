@@ -1,7 +1,14 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals"],
   "rules": {
-    "react/no-unescaped-entities": "off",
-    "react/jsx-no-undef": "warn"
-  }
+    "react/no-unescaped-entities": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        "react/jsx-no-undef": "off"
+      }
+    }
+  ]
 }

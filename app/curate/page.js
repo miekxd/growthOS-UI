@@ -377,7 +377,7 @@ export default function CurateKnowledgePage() {
                 💡 RECOMMENDATION:
               </h3>
               <p className="text-gray-700 text-sm">
-                Based on your knowledge database, I recommend choosing the option that best fits your current learning goals and organizational structure. If you're unsure about the relevance of this information, Option 4 allows you to discard it without any changes.
+                Based on your knowledge database, I recommend choosing the option that best fits your current learning goals and organizational structure.
               </p>
             </div>
           </div>

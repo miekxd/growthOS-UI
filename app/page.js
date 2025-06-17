@@ -158,7 +158,7 @@ export default function LoginPage() {
           {/* Additional Options */}
           <div className="mt-6 text-center">
             <p className="text-gray-400 text-sm">
-              Don't have an account?{' '}
+              "Don&apos;t have an account?"{' '}
               <button className="text-blue-400 hover:text-blue-300 transition-colors">
                 Sign up
               </button>
@@ -168,7 +168,7 @@ export default function LoginPage() {
 
         {/* Features Preview */}
         <div className="mt-8 text-center">
-          <p className="text-gray-400 text-sm mb-4">What you'll get access to:</p>
+          <p className="text-gray-400 text-sm mb-4">"What you&apos;ll get access to:"</p>
           <div className="flex justify-center gap-6 text-xs text-gray-500">
             <div className="flex items-center gap-1">
               <span>🔧</span>

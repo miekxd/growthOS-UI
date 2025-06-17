@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { knowledgeAPI } from '../../lib/supabase';
 import SidebarNavigation from '../../components/SidebarNavigation';
+import Link from 'next/link';
 
 // Knowledge Item Card Component
 const KnowledgeCard = ({ category, content, tags, created_at, last_updated }) => {

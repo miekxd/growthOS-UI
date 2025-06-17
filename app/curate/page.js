@@ -126,6 +126,20 @@ export default function CurateKnowledgePage() {
     }
   };
 
+  const handleDoNothing = () => {
+    // Clear everything and return to input state
+    setRecommendations(null);
+    setSimilarCategory(null);
+    setInputText('');
+    setError(null);
+    setSuccessMessage('📝 Input discarded. Ready for new knowledge.');
+    
+    // Clear success message after 3 seconds
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -268,7 +282,7 @@ export default function CurateKnowledgePage() {
                 💡 SUGGESTIONS:
               </h3>
               <p className="text-gray-700 text-sm mb-3">
-                Reviewing your existing knowledge database, here are three ways that we can update it:
+                Reviewing your existing knowledge database, here are four options for handling this information:
               </p>
               <ul className="text-gray-700 text-sm space-y-3 ml-4">
                 {recommendations.map((rec) => (
@@ -315,6 +329,45 @@ export default function CurateKnowledgePage() {
                     </div>
                   </li>
                 ))}
+                
+                {/* Option 4: Do Nothing */}
+                <li className="border border-gray-300 rounded-lg p-4 bg-gray-100">
+                  <div className="flex items-start gap-3">
+                    <span className="font-semibold text-gray-600">Option 4:</span>
+                    <div className="flex-1">
+                      <div className="mb-2">
+                        <span className="font-medium text-gray-800">Do Nothing</span>
+                      </div>
+                      <div className="text-gray-600 text-sm mb-3">
+                        Discard this input and return to the main interface. This information will not be saved to your knowledge database.
+                      </div>
+                      
+                      <div className="mb-3">
+                        <span className="text-xs font-medium text-gray-500 mb-1 block">Tags:</span>
+                        <div className="flex flex-wrap gap-1">
+                          <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs font-medium">
+                            discarded
+                          </span>
+                          <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs font-medium">
+                            no-action
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="text-xs text-gray-500 mb-3 bg-white p-2 rounded border">
+                        <strong>Action:</strong> Clear current input and return to main interface without saving anything.
+                      </div>
+                      
+                      <button
+                        onClick={handleDoNothing}
+                        disabled={isProcessing}
+                        className="px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 disabled:bg-gray-400 transition-colors"
+                      >
+                        🗑️ Discard Input
+                      </button>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
 
@@ -324,7 +377,7 @@ export default function CurateKnowledgePage() {
                 💡 RECOMMENDATION:
               </h3>
               <p className="text-gray-700 text-sm">
-                Based on your knowledge database, I recommend choosing the option that best fits your current learning goals and organizational structure.
+                Based on your knowledge database, I recommend choosing the option that best fits your current learning goals and organizational structure. If you're unsure about the relevance of this information, Option 4 allows you to discard it without any changes.
               </p>
             </div>
           </div>

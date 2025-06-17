@@ -1,278 +1,190 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { processText, applyRecommendation, getCategories, getDatabaseStats } from '../lib/api';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Brain, User, Lock, ArrowRight } from 'lucide-react';
 
-export default function Home() {
-  const [selectedSection, setSelectedSection] = useState('Knowledge');
-  const [inputText, setInputText] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [recommendations, setRecommendations] = useState(null);
-  const [similarCategory, setSimilarCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [stats, setStats] = useState(null);
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  // Load categories and stats on component mount
-  useEffect(() => {
-    loadCategories();
-    loadStats();
-  }, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
 
-  const loadCategories = async () => {
-    try {
-      const data = await getCategories();
-      setCategories(data.categories || []);
-    } catch (error) {
-      console.error('Failed to load categories:', error);
-    }
-  };
-
-  const loadStats = async () => {
-    try {
-      const data = await getDatabaseStats();
-      setStats(data);
-    } catch (error) {
-      console.error('Failed to load stats:', error);
-    }
-  };
-
-  const handleProcessText = async () => {
-    if (!inputText.trim()) {
-      setError('Please enter some text to process');
+    // Simple validation
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setIsLoading(false);
       return;
     }
 
-    setIsProcessing(true);
-    setError(null);
-    setSuccessMessage('');
-    
     try {
-      const result = await processText(inputText);
-      setRecommendations(result.recommendations);
-      setSimilarCategory(result.similar_category);
-    } catch (error) {
-      setError(`Processing failed: ${error.message}`);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleApplyRecommendation = async (optionNumber) => {
-    setIsProcessing(true);
-    setError(null);
-    
-    try {
-      const result = await applyRecommendation(inputText, optionNumber);
+      // Simulate login process (replace with your actual auth logic)
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (result.success) {
-        setSuccessMessage(`✅ ${result.message}`);
-        // Refresh categories and stats
-        await loadCategories();
-        await loadStats();
-        // Clear recommendations after successful application
-        setRecommendations(null);
-        setInputText('');
-      } else {
-        setError(`Failed to apply recommendation: ${result.message}`);
-      }
+      // For demo purposes, accept any email/password
+      // In production, you'd validate against your auth system
+      console.log('Login attempt:', { email, password });
+      
+      // Redirect to curate page on successful login
+      router.push('/curate');
+      
     } catch (error) {
-      setError(`Application failed: ${error.message}`);
+      setError('Login failed. Please try again.');
     } finally {
-      setIsProcessing(false);
+      setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleProcessText();
-    }
+  const handleDemoLogin = () => {
+    setEmail('demo@growthos.com');
+    setPassword('demo123');
+    // Auto-submit after a brief delay
+    setTimeout(() => {
+      const form = document.getElementById('login-form');
+      if (form) {
+        form.requestSubmit();
+      }
+    }, 500);
   };
 
   return (
-    <div className="flex h-screen bg-main-bg">
-      {/* Left Sidebar */}
-      <div className="w-64 bg-sidebar-bg text-white p-4">
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-6">
-          <div className="flex gap-1">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-          </div>
-          <span className="text-white font-semibold ml-2">GOS</span>
-        </div>
-
-        {/* Favorites Section */}
-        <div className="mb-6">
-          <h3 className="text-sm text-gray-400 mb-3">Favorites:</h3>
-          <div className="space-y-2">
-            <SidebarItem icon="😊" text="User" />
-            <SidebarItem 
-              icon="❤️" 
-              text="Knowledge" 
-              isActive={selectedSection === 'Knowledge'}
-              onClick={() => setSelectedSection('Knowledge')}
-              hasDropdown={true}
-            />
-          </div>
-        </div>
-
-        {/* Database Stats */}
-        {stats && (
-          <div className="mb-6">
-            <h3 className="text-sm text-gray-400 mb-3">Database:</h3>
-            <div className="text-xs text-gray-300 space-y-1">
-              <div>📚 {stats.total_knowledge_items} categories</div>
-              <div>🏷️ {stats.unique_tags} unique tags</div>
-            </div>
-          </div>
-        )}
-
-        {/* Actions Section */}
-        <div className="mb-6">
-          <h3 className="text-sm text-gray-400 mb-3">Actions:</h3>
-          <div className="space-y-2">
-            <SidebarItem icon="🔧" text="Curate Knowledge" hasDropdown={true} />
-            <SidebarItem icon="🧪" text="Self Test" hasDropdown={true} />
-            <SidebarItem icon="🤖" text="Deploy Agents" hasDropdown={true} />
-          </div>
-        </div>
-
-        {/* Categories Preview */}
-        <div className="mb-6">
-          <h3 className="text-sm text-gray-400 mb-3">Recent Categories:</h3>
-          <div className="space-y-1">
-            {categories.slice(0, 3).map((category, index) => (
-              <div key={index} className="text-xs text-gray-300 truncate">
-                📝 {category.category}
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 flex items-center justify-center p-4">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-6">
-        {/* Input Area */}
-        <div className="bg-card-bg rounded-lg p-6 mb-6">
-          <h2 className="text-white text-lg font-semibold mb-4">💡 Add Knowledge</h2>
-          <textarea 
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Enter your knowledge, insights, or information here..."
-            className="w-full h-32 p-3 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-400 focus:outline-none resize-none"
-            disabled={isProcessing}
-          />
-          <div className="flex justify-between items-center mt-4">
-            <div className="text-sm text-gray-400">
-              Press Enter to process, Shift+Enter for new line
+      {/* Login Card */}
+      <div className="w-full max-w-md relative">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="flex gap-1">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             </div>
-            <button
-              onClick={handleProcessText}
-              disabled={isProcessing || !inputText.trim()}
-              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed"
-            >
-              {isProcessing ? '🔄 Processing...' : '🚀 Process'}
-            </button>
+            <Brain size={32} className="text-blue-400" />
           </div>
+          <h1 className="text-3xl font-bold text-white mb-2">GrowthOS</h1>
+          <p className="text-gray-400">Your Second Brain for Knowledge Management</p>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-600 text-white p-4 rounded-lg mb-6">
-            ❌ {error}
-          </div>
-        )}
-
-        {/* Success Message */}
-        {successMessage && (
-          <div className="bg-green-600 text-white p-4 rounded-lg mb-6">
-            {successMessage}
-          </div>
-        )}
-
-        {/* AI Recommendations */}
-        {recommendations && (
-          <div className="bg-white rounded-lg p-6 mb-6">
-            <div className="border-l-4 border-blue-500 pl-4 mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">🤖 AI Recommendations:</h2>
+        {/* Login Form */}
+        <div className="bg-gray-800 backdrop-blur-lg rounded-lg shadow-2xl p-8 border border-gray-700">
+          <form id="login-form" onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter your email"
+                  disabled={isLoading}
+                />
+              </div>
             </div>
 
-            {/* Similar Category Info */}
-            {similarCategory && (
-              <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-                <h3 className="text-sm font-semibold text-blue-800 mb-2">
-                  📊 Similar Content Found:
-                </h3>
-                <p className="text-blue-700 text-sm">
-                  Found similar content in category: <strong>{similarCategory}</strong>
-                </p>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter your password"
+                  disabled={isLoading}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="bg-red-600/20 border border-red-600/50 rounded-lg p-3">
+                <p className="text-red-400 text-sm">❌ {error}</p>
               </div>
             )}
 
-            {/* Recommendations */}
-            <div className="space-y-4">
-              {recommendations.map((rec) => (
-                <div key={rec.option_number} className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-semibold text-gray-800">
-                      Option {rec.option_number}: {rec.category}
-                    </h3>
-                    <button
-                      onClick={() => handleApplyRecommendation(rec.option_number)}
-                      disabled={isProcessing}
-                      className="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 disabled:bg-gray-400"
-                    >
-                      {isProcessing ? '⏳' : '✅ Apply'}
-                    </button>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-3">{rec.change}</p>
-                  <div className="bg-gray-50 p-3 rounded text-sm">
-                    <strong>Preview:</strong> {rec.preview}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group"
+            >
+              {isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
+            </button>
+          </form>
 
-        {/* Chat Input */}
-        <div className="bg-gray-600 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <input 
-              type="text" 
-              placeholder="Ask anything about your knowledge base..." 
-              className="flex-1 bg-transparent text-white placeholder-gray-300 border-none outline-none"
-            />
-            <div className="flex items-center gap-2 text-gray-300 text-sm">
-              <span>🧠 Second Brain AI</span>
-              <button className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white hover:bg-gray-400">
-                ↗️
+          {/* Demo Login */}
+          <div className="mt-6 pt-6 border-t border-gray-700">
+            <button
+              onClick={handleDemoLogin}
+              disabled={isLoading}
+              className="w-full bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed text-gray-300 font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <Brain size={20} className="text-blue-400" />
+              Try Demo Account
+            </button>
+            <p className="text-xs text-gray-500 text-center mt-2">
+              Quick access to explore GrowthOS features
+            </p>
+          </div>
+
+          {/* Additional Options */}
+          <div className="mt-6 text-center">
+            <p className="text-gray-400 text-sm">
+              Don't have an account?{' '}
+              <button className="text-blue-400 hover:text-blue-300 transition-colors">
+                Sign up
               </button>
+            </p>
+          </div>
+        </div>
+
+        {/* Features Preview */}
+        <div className="mt-8 text-center">
+          <p className="text-gray-400 text-sm mb-4">What you'll get access to:</p>
+          <div className="flex justify-center gap-6 text-xs text-gray-500">
+            <div className="flex items-center gap-1">
+              <span>🔧</span>
+              <span>Curate Knowledge</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span>🧪</span>
+              <span>Self Testing</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span>🤖</span>
+              <span>AI Agents</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-// Reusable Sidebar Item Component
-function SidebarItem({ icon, text, isActive, onClick, hasDropdown }) {
-  return (
-    <div 
-      className={`flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700 ${
-        isActive ? 'bg-gray-700' : ''
-      }`}
-      onClick={onClick}
-    >
-      <span>{icon}</span>
-      <span className="text-sm flex-1">{text}</span>
-      {hasDropdown && <span className="text-gray-400">▶</span>}
     </div>
   );
 }

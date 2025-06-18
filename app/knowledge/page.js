@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { knowledgeAPI } from '../../lib/supabase';
@@ -17,14 +17,11 @@ const KnowledgeCard = ({ category, content, tags, created_at, last_updated }) =>
       <div className="border-b border-gray-200 pb-2 mb-3">
         <h3 className="font-semibold text-gray-800 text-lg">{category}</h3>
       </div>
-      
+
       {/* Content Section */}
       <div className="mb-4">
         <div className="text-gray-600 text-sm leading-relaxed">
-          {shouldTruncate && !isExpanded 
-            ? `${content.substring(0, truncateLength)}...`
-            : content
-          }
+          {shouldTruncate && !isExpanded ? `${content.substring(0, truncateLength)}...` : content}
         </div>
         {shouldTruncate && (
           <button
@@ -35,38 +32,41 @@ const KnowledgeCard = ({ category, content, tags, created_at, last_updated }) =>
           </button>
         )}
       </div>
-      
+
       {/* Tags Section */}
       <div className="mb-3">
         <div className="flex flex-wrap gap-1">
-          {tags && tags.map((tag, index) => (
-            <span 
-              key={index} 
-              className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium"
-            >
-              {tag}
-            </span>
-          ))}
+          {tags &&
+            tags.map((tag, index) => (
+              <span
+                key={index}
+                className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium"
+              >
+                {tag}
+              </span>
+            ))}
         </div>
       </div>
-      
+
       {/* Timestamp Footer */}
       <div className="text-xs text-gray-400 border-t border-gray-100 pt-2">
-        Created: {new Date(created_at).toLocaleDateString('en-US', {
+        Created:{' '}
+        {new Date(created_at).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
           hour: '2-digit',
-          minute: '2-digit'
+          minute: '2-digit',
         })}
         {last_updated !== created_at && (
           <div className="mt-1">
-            Updated: {new Date(last_updated).toLocaleDateString('en-US', {
+            Updated:{' '}
+            {new Date(last_updated).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
               hour: '2-digit',
-              minute: '2-digit'
+              minute: '2-digit',
             })}
           </div>
         )}
@@ -82,11 +82,11 @@ export default function KnowledgeViewPage() {
   const [stats, setStats] = useState(null);
 
   // Navigation handler - Added from second page
-  const handleNavigation = (section) => {
+  const handleNavigation = section => {
     setSelectedSection(section);
-    
+
     // Handle navigation to different pages/sections
-    switch(section) {
+    switch (section) {
       case 'Curate Knowledge':
         // You can replace this with actual routing later
         window.location.href = '/curate'; // or use Next.js router
@@ -114,18 +114,18 @@ export default function KnowledgeViewPage() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const data = await knowledgeAPI.getAll();
         setKnowledgeItems(data || []);
-        
+
         // Generate stats from the fetched data
         if (data && data.length > 0) {
           const allTags = data.flatMap(item => item.tags || []);
           const uniqueTags = [...new Set(allTags)];
-          
+
           setStats({
             total_knowledge_items: data.length,
-            unique_tags: uniqueTags.length
+            unique_tags: uniqueTags.length,
           });
         }
       } catch (err) {
@@ -173,8 +173,8 @@ export default function KnowledgeViewPage() {
                   <p className="text-red-700 text-sm">{error}</p>
                 </div>
               </div>
-              <button 
-                onClick={() => window.location.reload()} 
+              <button
+                onClick={() => window.location.reload()}
                 className="mt-3 bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700"
               >
                 Retry
@@ -185,7 +185,7 @@ export default function KnowledgeViewPage() {
           {/* Knowledge Items Grid */}
           {!loading && !error && knowledgeItems.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {knowledgeItems.map((item) => (
+              {knowledgeItems.map(item => (
                 <KnowledgeCard
                   key={item.id}
                   category={item.category}
@@ -203,8 +203,10 @@ export default function KnowledgeViewPage() {
             <div className="text-center py-12">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
               <h3 className="text-lg font-medium text-gray-600 mb-2">No knowledge items found</h3>
-              <p className="text-gray-500 mb-4">Your knowledge database is empty. Start adding knowledge to see it here.</p>
-              <Link 
+              <p className="text-gray-500 mb-4">
+                Your knowledge database is empty. Start adding knowledge to see it here.
+              </p>
+              <Link
                 href="/curate"
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block"
               >

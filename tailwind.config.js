@@ -11,9 +11,9 @@ module.exports = {
         'sidebar-bg': '#2a2a2a',
         'main-bg': '#4a5568',
         'card-bg': '#5a6478',
-        'accent': '#6366f1',
+        accent: '#6366f1',
       },
     },
   },
   plugins: [],
-}
+};

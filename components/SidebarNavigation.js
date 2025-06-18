@@ -25,12 +25,12 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               <span className="mr-3">😊</span>
               <span>User</span>
             </div>
-            
-            <Link 
-              href="/knowledge" 
+
+            <Link
+              href="/knowledge"
               className={`flex items-center justify-between px-3 py-2 rounded transition-colors ${
-                currentPage === 'knowledge' 
-                  ? 'bg-blue-600 text-white' 
+                currentPage === 'knowledge'
+                  ? 'bg-blue-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
@@ -57,14 +57,11 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
         {/* Quick Links */}
         <div className="mb-6">
           <div className="space-y-1">
-            <Link 
-              href="/graph" 
-              className="block text-blue-400 text-sm hover:underline px-3 py-1"
-            >
+            <Link href="/graph" className="block text-blue-400 text-sm hover:underline px-3 py-1">
               Relationship Graph
             </Link>
-            <Link 
-              href="/knowledge" 
+            <Link
+              href="/knowledge"
               className="block text-blue-400 text-sm hover:underline px-3 py-1"
             >
               View Categories
@@ -76,11 +73,11 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
         <div className="mb-6">
           <h3 className="text-sm text-gray-400 mb-3">Actions:</h3>
           <div className="space-y-1">
-            <Link 
-              href="/curate" 
+            <Link
+              href="/curate"
               className={`flex items-center justify-between px-3 py-2 rounded transition-colors ${
-                currentPage === 'curate' 
-                  ? 'bg-blue-600 text-white' 
+                currentPage === 'curate'
+                  ? 'bg-blue-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
@@ -91,11 +88,11 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               <span className="text-xs">▼</span>
             </Link>
 
-            <Link 
-              href="/test" 
+            <Link
+              href="/test"
               className={`flex items-center justify-between px-3 py-2 rounded transition-colors ${
-                currentPage === 'test' 
-                  ? 'bg-blue-600 text-white' 
+                currentPage === 'test'
+                  ? 'bg-blue-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
@@ -106,11 +103,11 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               <span className="text-xs">▼</span>
             </Link>
 
-            <Link 
-              href="/agents" 
+            <Link
+              href="/agents"
               className={`flex items-center justify-between px-3 py-2 rounded transition-colors ${
-                currentPage === 'agents' 
-                  ? 'bg-blue-600 text-white' 
+                currentPage === 'agents'
+                  ? 'bg-blue-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
@@ -127,8 +124,8 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
         <div className="mb-6">
           <h3 className="text-sm text-gray-400 mb-3">Workspace:</h3>
           <div className="space-y-1">
-            <Link 
-              href="/workspace/1" 
+            <Link
+              href="/workspace/1"
               className="flex items-center justify-between px-3 py-2 rounded text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
             >
               <div className="flex items-center">
@@ -137,8 +134,8 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               </div>
               <span className="text-xs">▼</span>
             </Link>
-            <Link 
-              href="/workspace/2" 
+            <Link
+              href="/workspace/2"
               className="flex items-center justify-between px-3 py-2 rounded text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
             >
               <div className="flex items-center">
@@ -147,8 +144,8 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               </div>
               <span className="text-xs">▼</span>
             </Link>
-            <Link 
-              href="/workspace/3" 
+            <Link
+              href="/workspace/3"
               className="flex items-center justify-between px-3 py-2 rounded text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
             >
               <div className="flex items-center">
@@ -157,8 +154,8 @@ export default function SidebarNavigation({ currentPage = 'knowledge', stats = n
               </div>
               <span className="text-xs">▼</span>
             </Link>
-            <Link 
-              href="/workspace/new" 
+            <Link
+              href="/workspace/new"
               className="flex items-center px-3 py-2 rounded text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
             >
               <span className="mr-3">➕</span>

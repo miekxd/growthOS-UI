@@ -6,10 +6,7 @@ export async function POST(request) {
     const { text } = await request.json();
 
     if (!text) {
-      return NextResponse.json(
-        { error: 'Text is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Text is required' }, { status: 400 });
     }
 
     // Call Azure OpenAI for embedding
@@ -19,11 +16,11 @@ export async function POST(request) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'api-key': process.env.AZURE_OPENAI_API_KEY
+          'api-key': process.env.AZURE_OPENAI_API_KEY,
         },
         body: JSON.stringify({
-          input: text.replace('\n', ' ').trim()
-        })
+          input: text.replace('\n', ' ').trim(),
+        }),
       }
     );
 
@@ -32,19 +29,18 @@ export async function POST(request) {
     }
 
     const data = await response.json();
-    
+
     // Return the embedding
     return NextResponse.json({
       embedding: data.data[0].embedding,
-      dimension: data.data[0].embedding.length
+      dimension: data.data[0].embedding.length,
     });
-
   } catch (error) {
     console.error('Embedding generation error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to generate embedding',
-        detail: error.message 
+        detail: error.message,
       },
       { status: 500 }
     );
@@ -53,8 +49,5 @@ export async function POST(request) {
 
 // Handle other HTTP methods
 export async function GET() {
-  return NextResponse.json(
-    { error: 'Method Not Allowed' },
-    { status: 405 }
-  );
+  return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }

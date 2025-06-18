@@ -24,9 +24,9 @@ export default function Home() {
           <h3 className="text-sm text-gray-400 mb-3">Favorites:</h3>
           <div className="space-y-2">
             <SidebarItem icon="😊" text="User" />
-            <SidebarItem 
-              icon="❤️" 
-              text="Knowledge" 
+            <SidebarItem
+              icon="❤️"
+              text="Knowledge"
               isActive={selectedSection === 'Knowledge'}
               onClick={() => setSelectedSection('Knowledge')}
               hasDropdown={true}
@@ -36,16 +36,12 @@ export default function Home() {
 
         {/* Relationship Graph */}
         <div className="mb-6">
-          <button className="text-blue-400 text-sm hover:underline">
-            Relationship Graph
-          </button>
+          <button className="text-blue-400 text-sm hover:underline">Relationship Graph</button>
         </div>
 
         {/* View Categories */}
         <div className="mb-6">
-          <button className="text-blue-400 text-sm hover:underline">
-            View Categories
-          </button>
+          <button className="text-blue-400 text-sm hover:underline">View Categories</button>
         </div>
 
         {/* Actions Section */}
@@ -93,27 +89,26 @@ export default function Home() {
               📊 CONTEXT:
             </h3>
             <p className="text-gray-700 text-sm leading-relaxed">
-              The input provided me talks about the foundation of effective learning and self-growth. 
-              It starts with understanding that consistency matters more than intensity. Most people 
-              overestimate what they can do in a short time and underestimate what they can achieve 
-              over months or years of steady effort. Instead of trying to cram or master something 
-              overnight, establish a regular rhythm of focused learning. This could mean dedicating 30 to 
-              90 minutes a day to a skill or topic and sticking to it like a job. That consistency builds 
-              neural connections, confidence, and momentum. Track your time and progress, not to judge 
-              yourself, but to hold yourself accountable and make adjustments when necessary. Another 
-              critical element is deliberate practice. Mindless repetition doesn't lead to growth; targeted, 
-              uncomfortable practice does. Break down complex tasks into smaller parts, identify your 
-              weak points, and work on them intentionally. Get feedback early and often, whether through 
-              mentors, peers, or self-assessment. Growth happens when you push into the zone where 
-              things feel hard, but not impossible.
+              The input provided me talks about the foundation of effective learning and
+              self-growth. It starts with understanding that consistency matters more than
+              intensity. Most people overestimate what they can do in a short time and underestimate
+              what they can achieve over months or years of steady effort. Instead of trying to cram
+              or master something overnight, establish a regular rhythm of focused learning. This
+              could mean dedicating 30 to 90 minutes a day to a skill or topic and sticking to it
+              like a job. That consistency builds neural connections, confidence, and momentum.
+              Track your time and progress, not to judge yourself, but to hold yourself accountable
+              and make adjustments when necessary. Another critical element is deliberate practice.
+              Mindless repetition doesn't lead to growth; targeted, uncomfortable practice does.
+              Break down complex tasks into smaller parts, identify your weak points, and work on
+              them intentionally. Get feedback early and often, whether through mentors, peers, or
+              self-assessment. Growth happens when you push into the zone where things feel hard,
+              but not impossible.
             </p>
           </div>
 
           {/* Suggestions Section */}
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-600 mb-2">
-              💡 SUGGESTIONS:
-            </h3>
+            <h3 className="text-sm font-semibold text-gray-600 mb-2">💡 SUGGESTIONS:</h3>
             <p className="text-gray-700 text-sm mb-3">
               Reviewing your existing knowledge database, here are three ways that we can update it:
             </p>
@@ -130,8 +125,8 @@ export default function Home() {
               💡 RECOMMENDATION:
             </h3>
             <p className="text-gray-700 text-sm">
-              Given that your goal is X, Y, and Z, I recommend that you go with Suggestion 1/2/3. This is 
-              because...
+              Given that your goal is X, Y, and Z, I recommend that you go with Suggestion 1/2/3.
+              This is because...
             </p>
           </div>
         </div>
@@ -139,9 +134,9 @@ export default function Home() {
         {/* Chat Input */}
         <div className="bg-gray-600 rounded-lg p-4">
           <div className="flex items-center gap-3">
-            <input 
-              type="text" 
-              placeholder="Ask anything" 
+            <input
+              type="text"
+              placeholder="Ask anything"
               className="flex-1 bg-transparent text-white placeholder-gray-300 border-none outline-none"
             />
             <div className="flex items-center gap-2 text-gray-300 text-sm">
@@ -160,7 +155,7 @@ export default function Home() {
 // Reusable Sidebar Item Component
 function SidebarItem({ icon, text, isActive, onClick, hasDropdown }) {
   return (
-    <div 
+    <div
       className={`flex items-center gap-2 p-2 rounded cursor-pointer hover:bg-gray-700 ${
         isActive ? 'bg-gray-700' : ''
       }`}

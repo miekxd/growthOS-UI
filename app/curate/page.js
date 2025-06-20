@@ -147,7 +147,8 @@ export default function CurateKnowledgePage() {
   };
 
   return (
-    <div className="flex h-screen bg-main-bg">
+    <div className="flex h-screen bg-main-bg
+    bg-gradient-to-br from-blue-600 via-navy-600 to-white">
       {/* Sidebar Navigation */}
       <SidebarNavigation currentPage="curate" stats={stats} />
 
